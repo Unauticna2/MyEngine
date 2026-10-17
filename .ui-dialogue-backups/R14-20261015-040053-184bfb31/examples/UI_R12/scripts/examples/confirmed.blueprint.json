@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "1",
+      "type": "Update"
+    },
+    {
+      "id": "2",
+      "type": "TransactionPaidOnce",
+      "params": {
+        "key": "donation"
+      }
+    },
+    {
+      "id": "3",
+      "type": "Branch"
+    },
+    {
+      "id": "4",
+      "type": "Print",
+      "params": {
+        "text": "Спасибо за поддержку!"
+      }
+    }
+  ],
+  "links": [
+    [
+      "1",
+      "next",
+      "3",
+      "in"
+    ],
+    [
+      "2",
+      "value",
+      "3",
+      "condition"
+    ],
+    [
+      "3",
+      "true",
+      "4",
+      "in"
+    ]
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "1",
+      "type": "UIClick",
+      "x": 40,
+      "y": 70,
+      "params": {
+        "slide": "1",
+        "element": "2"
+      }
+    },
+    {
+      "id": "2",
+      "type": "PlayerVerified",
+      "x": 40,
+      "y": 240,
+      "params": {
+        "key": "purchase"
+      }
+    },
+    {
+      "id": "3",
+      "type": "Branch",
+      "x": 350,
+      "y": 70
+    },
+    {
+      "id": "4",
+      "type": "LoadScene",
+      "x": 660,
+      "y": 70,
+      "params": {
+        "path": "scenes/room1.json"
+      }
+    },
+    {
+      "id": "5",
+      "type": "CertificateImport",
+      "x": 660,
+      "y": 260,
+      "params": {
+        "product": "deluxe",
+        "key": "purchase",
+        "playerId": ""
+      }
+    }
+  ],
+  "links": [
+    [
+      "1",
+      "next",
+      "3",
+      "in"
+    ],
+    [
+      "2",
+      "value",
+      "3",
+      "condition"
+    ],
+    [
+      "3",
+      "true",
+      "4",
+      "in"
+    ],
+    [
+      "3",
+      "false",
+      "5",
+      "in"
+    ]
+  ]
+}

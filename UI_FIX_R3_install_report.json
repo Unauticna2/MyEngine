@@ -1,0 +1,28 @@
+{
+  "version": "UI FIX R3",
+  "engine": "F:\\Users\\User\\Desktop\\MyEngine",
+  "verified_files": 19,
+  "backup": "F:\\Users\\User\\Desktop\\MyEngine\\.ui-fix-backups\\R3-20261014-202611-e79f22cd",
+  "files": {
+    "FIX_POWERPOINT_IMPORT.txt": "0396795e835b91ad9c722140b86052377b14a7a57b1caf77aa6b8374c6c314c9",
+    "LIBREOFFICE_IMPORT.txt": "bd2b4f7becdd6866b3ed3d49aa0297ee8a51afd2f71a6c1af34b2f247f37d6db",
+    "POWERPOINT_OPEN_IMPORT.txt": "907b85b97844c268f7a84c5647f5e71a43c1a33382d9bf6409cd99f99af9392e",
+    "README.txt": "bc1693220365685dc53eed1f9e02f7d36512c6bfa99b377b920499f385bbfe52",
+    "WHATS_NEW_2_5.txt": "5aaaf015541142bc9a757252f62de19801513a34e5798e6af84a8134eae53735",
+    "engine_build.py": "e3c0b76950db5c4eb009430e34e31ea83b8b3b0f32fff6631cac424eb18a7a5b",
+    "engine_pptx_import.py": "df43571454a07661da22e8df1eda0e6d95858f3805c2ea6a31311af8a5007e49",
+    "engine_pptx_layers.py": "3df2f89714c91ba3e8983292c9bac83e7504290aedd0932b170c4bdbd00fda94",
+    "engine_pptx_libreoffice.py": "77a396c1e34247988ab2e60191618005003444c104d8295ebc9503b87950d6b7",
+    "engine_runtime.py": "7371d2b8df396134d6770fea71e07b69dffcb5e2cb464ca5e525a5a96e178541",
+    "engine_settings_ui.py": "80bad05ce753b61ee3b52cd7e3a5cf9b9d87cac66b84b4612863ac6f93fcf30e",
+    "engine_ui.py": "4a371bc83699e3f7ae7e69fcb97d2ce6bef1e561e47e1c1b9b92608fdf52a7e4",
+    "engine_ui_gl.py": "90e44de80b88fb0aba7e8759d315feead7f552a447abd1abbe6f6a627a332e77",
+    "setup_libreoffice.cmd": "7a14e69c19509a769c84f46a6b16ab5706d944e042a89c102b1c3d858226d1ed",
+    "setup_libreoffice.py": "50f1b59d165d08adb84eee3c83d819a91b178bd37a6971bc2303f271ea98c14b",
+    "tests/test_powerpoint_open.py": "b417df980ad091dcc6f35e78c80523706be30b65dbf9e2c82a9256f5c46fe633",
+    "tests/test_pptx_import.py": "36f8445b2ae59c9cccc12425c92ee3c58fa37031981799d69d93310eff615b65",
+    "tests/test_ui_background.py": "7b3fcea46f3d33d9eedc10a8e3e312dbddb673866cee80ecd571c42a96efc300",
+    "tools/powerpoint_export.ps1": "6fb141b3e98be5db8228012b774883ca4e9b70a3200913c63a9c740a32eeb1c8"
+  },
+  "restart_required": true
+}

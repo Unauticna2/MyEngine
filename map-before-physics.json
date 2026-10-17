@@ -1,0 +1,266 @@
+{
+  "model": [
+    "assets/Sphere.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Terrain.obj",
+    "assets/Floor.obj",
+    "assets/spherecube.4d",
+    "assets/cubebounds.obj"
+  ],
+  "positions": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -3
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -3
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": -6
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": -7
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": -4,
+      "y": 3,
+      "z": 2
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 3
+    }
+  ],
+  "colors": [
+    {
+      "r": 0,
+      "g": 0,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 0.25,
+      "b": 0.12
+    },
+    {
+      "r": 0.15,
+      "g": 1,
+      "b": 0.3
+    },
+    {
+      "r": 0,
+      "g": 0,
+      "b": 1
+    },
+    {
+      "r": 0.9,
+      "g": 0.7,
+      "b": 0.1
+    },
+    {
+      "r": 0.0,
+      "g": 0.6,
+      "b": 0.3
+    },
+    {
+      "r": 0.21,
+      "g": 0.2,
+      "b": 0.22
+    },
+    {
+      "r": 0.85,
+      "g": 0.85,
+      "b": 1
+    },
+    {
+      "r": 0,
+      "g": 1,
+      "b": 0
+    }
+  ],
+  "lightRotate": {
+    "x": 0,
+    "y": 31,
+    "z": -70
+  },
+  "names": [
+    "blue_sphere",
+    "keyboard_cube",
+    "green_cube",
+    "blue_cube",
+    "gold_cube",
+    "terrain",
+    "floor",
+    "spherecube_4d",
+    "food_trigger"
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "textures": [
+    null,
+    "textures/checker.png",
+    null,
+    null,
+    null,
+    "textures/terrain.png",
+    null,
+    null,
+    null
+  ],
+  "scripts": [
+    "scripts/spin.py",
+    "scripts/move_keys.py",
+    null,
+    null,
+    null,
+    null,
+    null,
+    "scripts/spin.py",
+    "scripts/trigger_demo.py"
+  ],
+  "colliders": [
+    null,
+    {
+      "isTrigger": false,
+      "size": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+      }
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "isTrigger": true,
+      "size": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+      }
+    }
+  ],
+  "layerSpacing": 0.1,
+  "title": "My Engine"
+}

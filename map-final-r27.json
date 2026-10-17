@@ -1,0 +1,566 @@
+{
+  "title": "MyEngine R27 - Lights / Transparency / PNG saves",
+  "model": [
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "camera": {
+    "position": {
+      "x": 7,
+      "y": 6,
+      "z": 13
+    },
+    "pitch": 20,
+    "yaw": -28,
+    "freeFly": true
+  },
+  "positions": [
+    {
+      "x": 0,
+      "y": -0.6,
+      "z": 1
+    },
+    {
+      "x": -1.4,
+      "y": 1,
+      "z": 0
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 0
+    },
+    {
+      "x": -1.4,
+      "y": 1,
+      "z": -1.8
+    },
+    {
+      "x": 1.1,
+      "y": 1.2,
+      "z": 3
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 3
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": -3,
+      "y": 2.5,
+      "z": 2
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 4
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 50,
+      "y": -25,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 125,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 6,
+      "y": 0.2,
+      "z": 5
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.45,
+      "g": 0.48,
+      "b": 0.52
+    },
+    {
+      "r": 0.9,
+      "g": 0.35,
+      "b": 0.15
+    },
+    {
+      "r": 0.65,
+      "g": 0.7,
+      "b": 0.8
+    },
+    {
+      "r": 0.12,
+      "g": 0.8,
+      "b": 0.2
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 0.08,
+      "g": 0.45,
+      "b": 0.75
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    }
+  ],
+  "names": [
+    "Ground",
+    "Glass polygon",
+    "Metal polygon",
+    "Colored object behind glass",
+    "Voxel glass",
+    "Water",
+    "Directional Light",
+    "Point Light",
+    "Spot Light",
+    "Demo controls"
+  ],
+  "textures": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "scripts": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "scripts/r27_save_demo.py",
+      "scripts/r27_demo.py"
+    ]
+  ],
+  "colliders": [
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    null,
+    null,
+    {
+      "type": "voxel"
+    },
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "rigidbodies": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "rotations4D": [
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    }
+  ],
+  "layerSpacings": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+  ],
+  "voxels": [
+    null,
+    null,
+    null,
+    null,
+    "assets/GlassVoxelR27.vxl.json",
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "active": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "visible": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "omitModelInBuild": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "editorOnly": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "scriptTrusted": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "castShadows": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "receiveShadows": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "materials": [
+    null,
+    {
+      "mode": "transparent",
+      "opacity": 0.3,
+      "roughness": 0.15
+    },
+    {
+      "metallic": 0.8,
+      "roughness": 0.2,
+      "reflectionStrength": 0.8
+    },
+    null,
+    {
+      "mode": "transparent",
+      "opacity": 0.1,
+      "voxelDensity": 0.6
+    },
+    {
+      "mode": "transparent",
+      "opacity": 0.55
+    },
+    null,
+    null,
+    null,
+    null
+  ],
+  "liquids": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "nx": 24,
+      "nz": 24,
+      "cellSize": 0.14,
+      "depth": 0.3
+    },
+    null,
+    null,
+    null,
+    null
+  ],
+  "lights": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "type": "directional",
+      "intensity": 0.65,
+      "colorMode": "temperature",
+      "temperature": 6000
+    },
+    {
+      "type": "point",
+      "color": [
+        2,
+        0.3,
+        0.1
+      ],
+      "intensity": 2,
+      "range": 7
+    },
+    {
+      "type": "spot",
+      "color": [
+        0.1,
+        0.2,
+        2
+      ],
+      "intensity": 4,
+      "range": 10,
+      "innerAngle": 30,
+      "outerAngle": 60
+    },
+    null
+  ],
+  "lighting": {
+    "legacy": "off",
+    "ambient": [
+      0.18,
+      0.18,
+      0.2
+    ]
+  },
+  "shadows": {
+    "enabled": true,
+    "size": 1024,
+    "distance": 25
+  },
+  "reflections": {
+    "enabled": true,
+    "size": 128,
+    "facesPerFrame": 1
+  },
+  "runtime": {
+    "scriptReload": false,
+    "lightKeys": false,
+    "diagnosticTitle": false
+  }
+}

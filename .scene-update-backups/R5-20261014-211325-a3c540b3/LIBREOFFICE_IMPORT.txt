@@ -1,0 +1,65 @@
+ПРИМЕЧАНИЕ: редактор теперь использует Import from open PowerPoint.
+LibreOffice не требуется; основная инструкция — POWERPOINT_OPEN_IMPORT.txt.
+Этот документ описывает необязательный старый backend engine_pptx_libreoffice.py.
+Вызов API: from engine_pptx_libreoffice import import_powerpoint
+
+MyEngine 2.5 — импорт PPTX через LibreOffice
+
+Установка:
+1. Закройте редактор. Распакуйте MyEngine2_5_LibreOffice_update.zip в папку
+   движка с заменой файлов. Для этого обновления пересборка EXE не нужна,
+   если у вас уже собран MyEngine 2.5.
+2. Установите обычный LibreOffice с компонентом Impress:
+   https://www.libreoffice.org/download/download-libreoffice/
+3. Запустите setup_libreoffice.cmd. Он устанавливает pypdfium2 и Pillow
+   в Python, указанный в python.ini (или в текущий Python, если ini отсутствует).
+   Для установки пакетов нужен интернет. Microsoft Office не нужен.
+4. Редактор → Assets / extensions → PowerPoint / 2D interface →
+   Import PPTX via LibreOffice… → выберите PPTX и новое имя ресурса.
+5. Обычно LibreOffice обнаруживается автоматически. Если не найден:
+   LibreOffice executable… → C:\Program Files\LibreOffice\program\soffice.com.
+   Поддерживаются также soffice.exe и переменная MYENGINE_LIBREOFFICE.
+
+Уже импортированный пример из вашей 2DInteface.pptx:
+assets/ui/LibreOfficeExample/interface.ui.json. Если проект находится отдельно,
+скопируйте папку LibreOfficeExample в его assets/ui, затем нажмите
+Attach existing .ui.json… и выберите interface.ui.json. Для этого готового
+примера LibreOffice и Python-пакеты уже не нужны.
+
+Что делает импорт:
+- Читает JSON, позиции, повороты и порядок элементов прямо из PPTX.
+- LibreOffice рисует временную копию презентации в отдельном профиле.
+- Экспортирует фон и каждую фигуру в отдельный PNG. Тени и прозрачность
+  восстанавливаются из двух отрисовок, на чёрном и белом фоне.
+- Кнопки сохраняют исходные границы и центр поворота независимо от размера тени.
+- Результат: assets/ui/<имя>/interface.ui.json и PNG. Игроку не нужны
+  LibreOffice, pypdfium2 и Pillow; импорт происходит только в редакторе.
+- Исходная презентация и ваш обычный профиль LibreOffice не изменяются.
+
+JSON кнопки — в Alternative Text либо целиком в тексте фигуры:
+{"myengine":{"id":"play","onClick":[{"action":"ui","enabled":false}]}}
+Этот пример отключает весь интерфейс. Служебный JSON скрывается в PNG.
+Чтобы на кнопке было написано «Играть», оставьте надпись в самой фигуре,
+а JSON поместите в Alternative Text. Alternative Text имеет приоритет.
+Другие onClick: next, slide, enableSlide, element, scene, script, call.
+JSON animations поддерживает fade, appear, fly, zoom, spin, move.
+
+Ограничения:
+- Оформление рисует LibreOffice. Шрифты, сложные диаграммы и эффекты могут
+  отличаться от PowerPoint; нужные шрифты должны быть установлены у разработчика.
+- Переводятся простые Appear/Fade/Fly/Zoom и Spin из основной последовательности.
+  Fly по умолчанию идёт снизу; направление можно задать через offset в JSON.
+  Сложные тайминги, повторения, анимации отдельных букв, пути движения,
+  триггеры по другим фигурам и переходы слайдов не воспроизводятся точно.
+  Неподдержанные эффекты нужно заменить JSON animations/onClick.
+- Группа фигур импортируется как один элемент. JSON дочерней кнопки внутри
+  группы не становится отдельной кнопкой: разгруппируйте такие элементы.
+- Видео/аудио и GIF импортируются как статические изображения; для анимации
+  кадров используйте frames/fps и PNG рядом с исходным PPTX.
+- Видимая часть фигур ограничивается размером слайда.
+- До 256 исходных слайдов, до 2048 внутренних страниц отрисовки
+  (одна на фон + две на фигуру). Разрешение: до 2560 пикселей по длинной стороне.
+  Обычный таймаут LibreOffice — 300 секунд.
+
+Старый tools/powerpoint_export.ps1 больше не вызывается импортёром.
+Файлы старых исправлений PowerPoint COM не нужно накладывать поверх этого обновления.

@@ -1,0 +1,6 @@
+{
+  "size": [64, 24, 64],
+  "cellSize": 0.2,
+  "generator": "terrain",
+  "color": [120, 185, 90, 255]
+}

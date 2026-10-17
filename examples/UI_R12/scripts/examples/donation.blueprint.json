@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "1",
+      "type": "UIClick",
+      "x": 50,
+      "y": 70,
+      "params": {
+        "slide": "1",
+        "element": "donate"
+      }
+    },
+    {
+      "id": "2",
+      "type": "DonationOpen",
+      "x": 360,
+      "y": 70,
+      "params": {}
+    }
+  ],
+  "links": [
+    [
+      "1",
+      "next",
+      "2",
+      "in"
+    ]
+  ],
+  "ui": "assets/ui/Demo/interface.ui.json"
+}

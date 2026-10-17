@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "kind": "MyEngine.UI",
+  "width": 960.0,
+  "height": 540.0,
+  "startSlide": "1",
+  "slides": [
+    {
+      "id": "1",
+      "name": "Slide 1",
+      "enabled": true,
+      "background": "slide_1_background.png",
+      "elements": [
+        {
+          "id": "play",
+          "name": "Прямоугольник 1",
+          "rect": [
+            20.41803149606299,
+            341.73133858267715,
+            186.98503937007874,
+            169.79102362204725
+          ],
+          "rotation": 0.0,
+          "enabled": true,
+          "onClick": [
+            {
+              "action": "ui",
+              "enabled": false
+            }
+          ],
+          "animations": [],
+          "image": "slide_1_shape_2.png",
+          "imageRect": [
+            -4.918031496062991,
+            -3.2313385826771537,
+            196.5,
+            178.5
+          ]
+        }
+      ],
+      "animations": [],
+      "onEnter": []
+    }
+  ],
+  "warnings": [],
+  "importer": "LibreOffice"
+}

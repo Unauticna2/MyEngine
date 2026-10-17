@@ -1,0 +1,73 @@
+{
+  "title": "My game",
+  "model": [
+    "assets/Cube.obj",
+    null,
+    null,
+    null
+  ],
+  "names": [
+    "Cube",
+    "Voxel A",
+    "Voxel B",
+    "SaveState"
+  ],
+  "positions": [
+    {
+      "x": -3,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {}
+  ],
+  "colors": [
+    {
+      "r": 0.2,
+      "g": 0.7,
+      "b": 1
+    },
+    {},
+    {},
+    {}
+  ],
+  "voxels": [
+    null,
+    "assets/VoxelSphere.vxl.json",
+    "assets/VoxelSphere.vxl.json",
+    null
+  ],
+  "scripts": [
+    null,
+    null,
+    null,
+    [
+      "scripts/PngSaveExample.py"
+    ]
+  ],
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 3,
+      "z": 12
+    },
+    "pitch": 10
+  },
+  "runtime": {
+    "diagnosticTitle": false,
+    "lightKeys": false,
+    "scriptReload": false,
+    "cameraReset": false,
+    "wKeys": false
+  },
+  "ui": "assets/ui/Example/interface.ui.json",
+  "shadows": {
+    "enabled": true
+  }
+}

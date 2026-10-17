@@ -1,0 +1,157 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "event0",
+      "type": "OnCollisionEnter",
+      "x": 40,
+      "y": 40,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action0",
+      "type": "Print",
+      "x": 360,
+      "y": 40,
+      "params": {
+        "text": "OnCollisionEnter"
+      }
+    },
+    {
+      "id": "event1",
+      "type": "OnCollisionStay",
+      "x": 40,
+      "y": 170,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action1",
+      "type": "Print",
+      "x": 360,
+      "y": 170,
+      "params": {
+        "text": "OnCollisionStay"
+      }
+    },
+    {
+      "id": "event2",
+      "type": "OnCollisionExit",
+      "x": 40,
+      "y": 300,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action2",
+      "type": "Print",
+      "x": 360,
+      "y": 300,
+      "params": {
+        "text": "OnCollisionExit"
+      }
+    },
+    {
+      "id": "event3",
+      "type": "OnTriggerEnter",
+      "x": 40,
+      "y": 430,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action3",
+      "type": "Print",
+      "x": 360,
+      "y": 430,
+      "params": {
+        "text": "OnTriggerEnter"
+      }
+    },
+    {
+      "id": "event4",
+      "type": "OnTriggerStay",
+      "x": 40,
+      "y": 560,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action4",
+      "type": "Print",
+      "x": 360,
+      "y": 560,
+      "params": {
+        "text": "OnTriggerStay"
+      }
+    },
+    {
+      "id": "event5",
+      "type": "OnTriggerExit",
+      "x": 40,
+      "y": 690,
+      "params": {
+        "otherName": "",
+        "playerOnly": false
+      }
+    },
+    {
+      "id": "action5",
+      "type": "Print",
+      "x": 360,
+      "y": 690,
+      "params": {
+        "text": "OnTriggerExit"
+      }
+    }
+  ],
+  "links": [
+    [
+      "event0",
+      "next",
+      "action0",
+      "in"
+    ],
+    [
+      "event1",
+      "next",
+      "action1",
+      "in"
+    ],
+    [
+      "event2",
+      "next",
+      "action2",
+      "in"
+    ],
+    [
+      "event3",
+      "next",
+      "action3",
+      "in"
+    ],
+    [
+      "event4",
+      "next",
+      "action4",
+      "in"
+    ],
+    [
+      "event5",
+      "next",
+      "action5",
+      "in"
+    ]
+  ]
+}

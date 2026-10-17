@@ -1,0 +1,49 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "first",
+      "type": "FirstSceneStart",
+      "x": 40,
+      "y": 40
+    },
+    {
+      "id": "intro",
+      "type": "Print",
+      "x": 360,
+      "y": 40,
+      "params": {
+        "text": "First visit to this scene during this game session"
+      }
+    },
+    {
+      "id": "start",
+      "type": "Start",
+      "x": 40,
+      "y": 190
+    },
+    {
+      "id": "loaded",
+      "type": "Print",
+      "x": 360,
+      "y": 190,
+      "params": {
+        "text": "Scene object started"
+      }
+    }
+  ],
+  "links": [
+    [
+      "first",
+      "next",
+      "intro",
+      "in"
+    ],
+    [
+      "start",
+      "next",
+      "loaded",
+      "in"
+    ]
+  ]
+}

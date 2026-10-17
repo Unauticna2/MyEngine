@@ -1,0 +1,62 @@
+Hotfix 2.5-R27-20261017.4 — 2026-10-17
+81 targeted checks passed, no skips:
+PYTHONPATH=.:tests MYENGINE_SLICE_DLL="$PWD/platforms/linux/libSlice4D.so" python3 -m unittest test_first_scene_start test_new_scene test_blueprints_physics test_ui_blueprints test_editor_transport test_r27 test_projects_build test_editor_context_r27 -q
+
+Real LinuxCore World transitions verify A -> B -> A, same-scene reload,
+path aliases, first events after all initial Starts, inactive initial
+objects, late spawns, manual + generated handlers, F5 regeneration,
+failed loads, a fresh core/game launch, editor Stop -> Play, preview scene
+identity, PNG JSON roundtrip / restore within a session and after restart.
+Editor command transport uses a controlled command queue in the lifecycle
+check; loading and switching actual World objects is not mocked.
+A real Tk/Xvfb test adds FirstSceneStart from the Blueprint palette and
+checks its execution port and generated Python. Existing GUI context menu,
+Is Trigger, runtime PNG and real Mesa rendering checks also passed.
+No Windows native viewport execution or Windows MASM build is claimed.
+
+Previous R27 .3 validation follows:
+
+Hotfix 2.5-R27-20261017.3 — 2026-10-17
+42 targeted checks passed, no skips:
+PYTHONPATH=.:tests python3 -m unittest test_editor_context_r27 test_editor_input_r23 test_projects_build test_blueprints_physics test_ui_blueprints -q
+
+GUI checks used real Tk 9 with an authenticated Xvfb display on Linux.
+Right-click events were sent to Hierarchy and Inspector child widgets;
+actual menu commands and checkbox callbacks were invoked. Covered:
+selected row targeting, empty-space Create, lights and voxels, missing
+primitive assets in new projects, Rigidbody + Box creation, invalid
+component rejection, Is Trigger immediate scene update, preservation of
+size/center/layers/extra data, disk reload, Undo/Redo, disabled editing in
+Play, advanced JSON validation. End-to-end: UI checkbox -> saved scene ->
+native Linux physics -> generated OnTriggerEnter callback.
+The open menu and visible Is Trigger checkbox were visually inspected.
+The Windows native viewport was not launched; no Windows build is claimed.
+
+Previous R27 .2 validation follows:
+
+MyEngine 2.5 R27 — 2026-10-17
+156 tests passed, no skips:
+PYTHONPATH=.:tests MYENGINE_SLICE_DLL="$PWD/platforms/linux/libSlice4D.so" python3 -m unittest test_blueprints_physics test_r27 test_r26 test_materials_r20 test_blender_import_r26 test_blender_export_r26 test_ui_blueprints test_blueprints_r18 test_ui_r8 test_projects_build test_vox_four_d test_native4d test_release_r25 test_editor_transport -q
+
+13 new tests cover signed/HDR numeric RGB, HSV/temperature, point/spot
+attenuation and cones, disabled lights/legacy fallback, materials, object
+columns, generated Blueprint actions/UI templates, real OpenGL pixel
+values for positive/negative lights and transparency, opaque-depth clipping,
+inside-volume stability, directional shadows and reflection captures,
+liquid rendering, PNG world restore (player, spawned objects, body velocities,
+materials, lights, edited voxel data), invalid PNG rollback, script state
+hooks without replaying Start spawners.
+
+Real renderer: Mesa 25.2.8, OpenGL 4.5 Compatibility Profile, EGL pbuffer.
+GLSL surface, shadow and voxel programs compiled and linked successfully.
+map-final-r27.json rendered successfully at 800x450 and visually inspected.
+Runtime restore tests use LinuxCore and shipped native Linux physics library.
+No Windows execution, Windows MASM build or Tk GUI execution is claimed.
+Other tests use fixtures where documented; this is not an exhaustive game test.
+
+Hotfix 2.5-R27-20261017.2: 10 physics Blueprint tests added. Six generated
+callbacks dispatch through real ScriptBinding, including old generated
+classes and handwritten callbacks. Native Linux physics tests cover solid
+and trigger enter/stay/exit, player filters, collider disable, destruction
+and trigger mode. Other checks cover multiple filters, fixed dt, lifecycle
+gates and callback errors. Windows execution and Tk GUI are not claimed.

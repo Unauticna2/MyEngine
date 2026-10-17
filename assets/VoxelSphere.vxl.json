@@ -1,0 +1,6 @@
+{
+  "size": [40, 40, 40],
+  "cellSize": 0.1,
+  "generator": "sphere",
+  "color": [55, 165, 235, 255]
+}

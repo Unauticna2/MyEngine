@@ -1,0 +1,115 @@
+{
+  "format": 1,
+  "kind": "MyEngine.UI",
+  "width": 960,
+  "height": 540,
+  "startSlide": "menu",
+  "slides": [
+    {
+      "id": "menu",
+      "modal": true,
+      "elements": [
+        {
+          "id": "panel",
+          "rect": [
+            0,
+            0,
+            960,
+            540
+          ],
+          "color": [
+            0.03,
+            0.06,
+            0.1,
+            0.85
+          ]
+        },
+        {
+          "id": "play",
+          "rect": [
+            240,
+            200,
+            480,
+            96
+          ],
+          "image": "play.png",
+          "animations": [
+            {
+              "kind": "fade",
+              "duration": 0.5
+            }
+          ],
+          "onClick": [
+            {
+              "action": "ui",
+              "enabled": false
+            },
+            {
+              "action": "call",
+              "object": "SaveState",
+              "method": "on_ui_close"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "rect": [
+            240,
+            320,
+            480,
+            96
+          ],
+          "image": "next.png",
+          "onClick": [
+            {
+              "action": "next"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "info",
+      "modal": true,
+      "elements": [
+        {
+          "id": "back",
+          "rect": [
+            240,
+            180,
+            480,
+            96
+          ],
+          "image": "back.png",
+          "onClick": [
+            {
+              "action": "slide",
+              "slide": "menu"
+            }
+          ]
+        },
+        {
+          "id": "reload",
+          "rect": [
+            240,
+            300,
+            480,
+            96
+          ],
+          "image": "reload.png",
+          "onClick": [
+            {
+              "action": "scene",
+              "path": "map-features25.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disabled",
+      "enabled": false,
+      "elements": []
+    }
+  ]
+}

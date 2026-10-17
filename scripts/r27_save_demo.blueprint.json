@@ -1,0 +1,145 @@
+{
+  "format": 1,
+  "nodes": [
+    {
+      "id": "update",
+      "type": "Update",
+      "x": 20,
+      "y": 20
+    },
+    {
+      "id": "savekey",
+      "type": "KeyPressed",
+      "params": {
+        "key": "F8"
+      },
+      "x": 20,
+      "y": 150
+    },
+    {
+      "id": "savebranch",
+      "type": "Branch",
+      "x": 260,
+      "y": 20
+    },
+    {
+      "id": "save",
+      "type": "SavePNG",
+      "params": {
+        "path": "saves/demo-r27.png",
+        "key": "demo"
+      },
+      "x": 520,
+      "y": 20
+    },
+    {
+      "id": "loadkey",
+      "type": "KeyPressed",
+      "params": {
+        "key": "F9"
+      },
+      "x": 260,
+      "y": 300
+    },
+    {
+      "id": "loadbranch",
+      "type": "Branch",
+      "x": 520,
+      "y": 180
+    },
+    {
+      "id": "load",
+      "type": "LoadPNG",
+      "params": {
+        "path": "saves/demo-r27.png",
+        "key": "demo"
+      },
+      "x": 780,
+      "y": 180
+    },
+    {
+      "id": "spawnkey",
+      "type": "KeyPressed",
+      "params": {
+        "key": "N"
+      },
+      "x": 520,
+      "y": 460
+    },
+    {
+      "id": "spawnbranch",
+      "type": "Branch",
+      "x": 780,
+      "y": 340
+    },
+    {
+      "id": "spawn",
+      "type": "Spawn",
+      "params": {
+        "model": "assets/Cube.obj",
+        "script": "scripts/r27_spawned.py",
+        "x": 0,
+        "y": 4,
+        "z": 0
+      },
+      "x": 1040,
+      "y": 340
+    }
+  ],
+  "links": [
+    [
+      "update",
+      "next",
+      "savebranch",
+      "in"
+    ],
+    [
+      "savekey",
+      "value",
+      "savebranch",
+      "condition"
+    ],
+    [
+      "savebranch",
+      "true",
+      "save",
+      "in"
+    ],
+    [
+      "savebranch",
+      "false",
+      "loadbranch",
+      "in"
+    ],
+    [
+      "loadkey",
+      "value",
+      "loadbranch",
+      "condition"
+    ],
+    [
+      "loadbranch",
+      "true",
+      "load",
+      "in"
+    ],
+    [
+      "loadbranch",
+      "false",
+      "spawnbranch",
+      "in"
+    ],
+    [
+      "spawnkey",
+      "value",
+      "spawnbranch",
+      "condition"
+    ],
+    [
+      "spawnbranch",
+      "true",
+      "spawn",
+      "in"
+    ]
+  ]
+}

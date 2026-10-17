@@ -1,0 +1,52 @@
+R26 validation — 2026-10-16
+Environment: Linux x86_64, CPython 3, g++ 13; no Windows/MSVC GUI or Blender.
+
+Native kernels compiled successfully:
+  g++ -std=c++17 -O2 -shared -fPIC FluidNative.cpp -o platforms/linux/libFluidNative.so
+  g++ -std=c++17 -O2 -shared -fPIC -pthread Slice4D.cpp -o platforms/linux/libSlice4D.so
+
+123 tests passed:
+  PYTHONPATH=.:tests MYENGINE_SLICE_DLL="$PWD/platforms/linux/libSlice4D.so" python3 -m unittest \
+    test_r26 test_blender_export_r26 test_release_r25 test_window_menu_r25 \
+    test_projects_build test_certificates_r19 test_identity_r20 test_ui_blueprints \
+    test_blueprints_r18 test_vox_four_d test_editor_transport test_native4d -q
+
+New coverage:
+- success-only version increments; compile failure; upload failure; manual version;
+  version write failure, stale UI snapshot, concurrent build lock.
+- still water, closed-volume conservation, positive depth, solid/dry barriers,
+  native/reference numerical agreement and asynchronous graphics ownership.
+- scene data retains liquid settings; example scene validated as a standalone project.
+- Blender hierarchy depth, siblings, root Empty handling, empty intermediate layers;
+  existing file preservation on failed export; UV/normal/vertex indices of combined
+  meshes and mirrored winding tested with synthetic mesh inputs.
+- exported header/empty layers parsed by actual engine loader/native 4D slicer.
+
+Scope: Windows packaging tests use synthetic PE fixtures. Blender mesh-stream
+checks use synthetic mesh inputs, not bpy. No claim of Windows execution,
+Blender UI installation or visual renderer verification is made.
+
+Addon hotfix 1.0.1 — 2026-10-17
+29 targeted tests passed (test_blender_export_r26 + test_r26).
+Six new regression cases cover absent/empty corner_normals, calculated legacy
+loop normals, flat/smooth fallback, retained custom corner normals, and zero normals.
+Blender itself is not installed in this validation environment.
+
+Addon hotfix 1.0.2 — 2026-10-17
+31 targeted tests passed. New checks forbid ANY access to corner_normals
+(including a property that raises) and simulate stale Python child-module
+reload using a minimal bpy stub. Modern/legacy loop normals and flat/smooth
+fallback remain covered. The final ZIP is checked for version 1.0.2 and
+absence of corner_normals in executable addon Python source.
+This is not a Blender UI execution test; Blender is unavailable here.
+
+Addon 1.1.0 — 2026-10-17
+44 targeted tests passed:
+  PYTHONPATH=.:tests python3 -m unittest test_blender_import_r26 test_blender_export_r26 test_r26 -q
+New import coverage: legacy trailing '+'; existing spherecube.4d; per-layer
+indices; empty W gaps; inverse coordinate axes; UV seams; split normals; OBJ
+smoothing groups; malformed inputs and limits; imported hierarchy; failed
+import rollback; import/export streams compared by the actual engine loader;
+menu registration/unregistration using fake bpy. Geometry mapping uses
+synthetic Mesh/Objects; this does not constitute Blender runtime validation.
+Blender 3.1 itself and its UI were not run (Blender is unavailable here).

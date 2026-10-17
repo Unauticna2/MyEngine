@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "name": "UI R12 example",
+  "engineVersion": "2.5",
+  "mainScene": "scenes/main.json"
+}

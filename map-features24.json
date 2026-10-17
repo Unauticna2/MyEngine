@@ -1,0 +1,260 @@
+{
+  "title": "MyEngine 2.4: shadows, native 4D, data assets and prefabs",
+  "model": [
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    null,
+    "assets/spherecube.4d",
+    null
+  ],
+  "names": [
+    "Floor",
+    "Data-driven block",
+    "Voxel sphere",
+    "4D model",
+    "Prefab demo"
+  ],
+  "positions": [
+    {
+      "y": -0.3
+    },
+    {
+      "x": 2,
+      "y": 1.5
+    },
+    {
+      "x": 0,
+      "y": 1.6,
+      "z": -3
+    },
+    {
+      "x": -3,
+      "y": 1.5
+    },
+    {
+      "y": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 9,
+      "y": 0.2,
+      "z": 9
+    },
+    {
+      "x": 0.7,
+      "y": 0.7,
+      "z": 0.7
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.7,
+      "g": 0.75,
+      "b": 0.82
+    },
+    {
+      "r": 0.2,
+      "g": 0.55,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 0.55,
+      "b": 0.12
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    }
+  ],
+  "scripts": [
+    [],
+    [
+      "scripts/data_spin.py"
+    ],
+    [],
+    [],
+    [
+      "scripts/features24.py"
+    ]
+  ],
+  "voxels": [
+    null,
+    null,
+    "assets/VoxelSphere.vxl.json",
+    null,
+    null
+  ],
+  "colliders": [
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "voxel"
+    },
+    {
+      "type": "mesh"
+    },
+    null
+  ],
+  "rotations4D": [
+    {},
+    {},
+    {},
+    {
+      "xw": 20,
+      "yw": 15,
+      "zw": 0
+    },
+    {}
+  ],
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 4,
+      "z": 10
+    },
+    "pitch": 15,
+    "yaw": 0,
+    "freeFly": true
+  },
+  "lightRotate": {
+    "x": -35,
+    "y": -25,
+    "z": 18
+  },
+  "shadows": {
+    "enabled": true,
+    "size": 1024,
+    "distance": 20,
+    "bias": 0.0006
+  },
+  "sun": {
+    "texture": "assets/skybox/sunmask.png",
+    "size": 12,
+    "brightness": 1,
+    "blackAsAlpha": true
+  },
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "textures": [
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "rigidbodies": [
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "layerSpacings": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+  ],
+  "active": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "visible": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "omitModelInBuild": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "editorOnly": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "scriptTrusted": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "castShadows": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "receiveShadows": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ]
+}

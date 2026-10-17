@@ -1,0 +1,8 @@
+MyEngine SMS Gateway R21
+Package: org.unauticna.myenginesmsgateway
+Version code: 21
+Min SDK: 26 (Android 8.0)
+Target / compile SDK: 35
+Build Tools: 35.0.0; javac 17.0.20 --release 8; D8; aapt2; zipalign; apksigner.
+APK signatures v2/v3 verified; no physical SIM/device test.
+APK SHA-256: 24bce1d5e32bdb06df5cf6b2196db2fd33b5f79e6113c19ff21dfbbd385ce319

@@ -1,0 +1,23 @@
+{
+  "format": 1,
+  "kind": "scriptable",
+  "type": "Mover",
+  "schema": {
+    "health": {
+      "type": "float",
+      "min": 0,
+      "max": 100,
+      "required": true
+    },
+    "speed": {
+      "type": "float",
+      "min": 0,
+      "max": 180,
+      "required": true
+    }
+  },
+  "data": {
+    "health": 100.0,
+    "speed": 25.0
+  }
+}

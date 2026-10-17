@@ -1,0 +1,156 @@
+{
+  "title": "MyEngine 2.1 — VOX and 4D",
+  "model": [
+    "assets/Cube.obj",
+    null,
+    "assets/spherecube.4d"
+  ],
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 3,
+      "z": 11
+    },
+    "pitch": 8,
+    "yaw": 0,
+    "freeFly": true
+  },
+  "lightRotate": {
+    "x": 20,
+    "y": 0,
+    "z": -25
+  },
+  "positions": [
+    {
+      "x": 0,
+      "y": -0.3,
+      "z": 0
+    },
+    {
+      "x": -2,
+      "y": 2,
+      "z": 0
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0
+    }
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 6,
+      "y": 0.15,
+      "z": 6
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.3,
+      "g": 0.34,
+      "b": 0.4
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 0.2,
+      "g": 0.65,
+      "b": 1
+    }
+  ],
+  "names": [
+    "Polygon floor",
+    "MagicaVoxel model",
+    "4D layered model"
+  ],
+  "textures": [
+    null,
+    null,
+    null
+  ],
+  "scripts": [
+    [],
+    [],
+    []
+  ],
+  "colliders": [
+    null,
+    null,
+    null
+  ],
+  "rigidbodies": [
+    null,
+    null,
+    null
+  ],
+  "rotations4D": [
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    }
+  ],
+  "layerSpacings": [
+    0.1,
+    0.1,
+    0.1
+  ],
+  "voxels": [
+    null,
+    {
+      "path": "assets/vox.vox",
+      "cellSize": 0.1
+    },
+    null
+  ],
+  "active": [
+    true,
+    true,
+    true
+  ],
+  "visible": [
+    true,
+    true,
+    true
+  ]
+}

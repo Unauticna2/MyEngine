@@ -1,0 +1,326 @@
+"""Typed Blueprint graph -> plain Python inside a delimited generated region."""
+from pathlib import Path
+import ast
+import json
+import math
+import os
+import tempfile
+from engine_scene import atomic_json
+
+PHYSICS_EVENTS={
+    'OnCollisionEnter':'on_collision_enter',
+    'OnCollisionStay':'on_collision_stay',
+    'OnCollisionExit':'on_collision_exit',
+    'OnTriggerEnter':'on_trigger_enter',
+    'OnTriggerStay':'on_trigger_stay',
+    'OnTriggerExit':'on_trigger_exit',
+}
+
+# title, hint, parameter defaults, typed inputs, typed outputs. exec ports are white.
+SPECS={
+ 'Start':('Start','Runs once when Play starts.',{}, {}, {'next':'exec'}),
+ 'FirstSceneStart':('First Scene Start','Runs after Start on this scene\'s first visit in the current game session. Returning to the scene and F5 do not repeat it. Stop -> Play starts a new session. Attach to a scene object.',{}, {}, {'next':'exec'}),
+ 'Update':('Update','Runs each frame; use dt for speed per second.',{}, {}, {'next':'exec'}),
+ 'FixedUpdate':('Fixed Update','Runs before each physics step.',{}, {}, {'next':'exec'}),
+ 'Number':('Number','A finite numeric constant.',{'value':1},{},{'value':'number'}),
+ 'DeltaTime':('Delta time','Seconds of the current update.',{}, {}, {'value':'number'}),
+ 'Add':('Add','Adds two numbers.',{'a':0,'b':0},{'a':'number','b':'number'},{'value':'number'}),
+ 'Multiply':('Multiply','Multiplies two numbers.',{'a':1,'b':1},{'a':'number','b':'number'},{'value':'number'}),
+ 'KeyDown':('Key held','True while a key is held: W, A, SPACE, F1…',{'key':'W'}, {}, {'value':'bool'}),
+ 'KeyPressed':('Key pressed','True only on the frame a key becomes pressed.',{'key':'SPACE'}, {}, {'value':'bool'}),
+ 'Compare':('Greater than','True when a > b.',{'a':0,'b':0},{'a':'number','b':'number'},{'value':'bool'}),
+ 'Branch':('Branch','Executes only the True or False chain.',{'condition':True},{'in':'exec','condition':'bool'},{'true':'exec','false':'exec'}),
+ 'Move':('Move (offset)','Adds XYZ/W offsets to the current position on every execution. Zero does not restore the position. For movement in Update use speed*dt; for teleporting use SetPosition; to hide the object use SetVisible.',{'x':0,'y':0,'z':0,'w':0},{'in':'exec','x':'number','y':'number','z':'number','w':'number'},{'next':'exec'}),
+ 'SetPosition':('Set position (XYZ)','Sets absolute world XYZ coordinates, without accumulating an offset. W is unchanged. Coordinates must stay between -1000000 and 1000000.',{'x':0,'y':0,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'}),
+ 'SetVisible':('Set visible','Shows or hides this object without moving it. Its scripts keep running and its collider stays enabled. This changes presentation only, not purchase ownership.',{'visible':True},{'in':'exec','visible':'bool'},{'next':'exec'}),
+ 'Rotate':('Rotate','Adds XYZ rotation in degrees.',{'x':0,'y':30,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'}),
+ 'Rotate4D':('Rotate 4D','Adds XW/YW/ZW rotation in degrees.',{'xw':0,'yw':0,'zw':0},{'in':'exec','xw':'number','yw':'number','zw':'number'},{'next':'exec'}),
+ 'Velocity':('Set velocity','Sets Rigidbody velocity in metres/sec; use Fixed Update.',{'x':0,'y':0,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'}),
+ 'Impulse':('Impulse','Adds an impulse to this object Rigidbody.',{'x':0,'y':5,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'}),
+ 'Spawn':('Spawn','Creates an object; model and script are relative project paths.',{'model':'assets/Cube.obj','script':'','x':0,'y':2,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'}),
+ 'LoadScene':('Load scene','Requests a scene switch at the frame boundary.',{'path':'scenes/main.json'},{'in':'exec'},{'next':'exec'}),
+ 'QuitGame':('Quit game','Closes the player. In the editor, stops Play and restores the editing scene.',{},{'in':'exec'},{}),
+ 'Print':('Log','Writes text to the Console.',{'text':'Hello from Blueprint'},{'in':'exec'},{'next':'exec'}),
+ 'Destroy':('Destroy self','Destroys this object after the update.',{},{'in':'exec'},{}),
+ 'Character':('Player physics','Switch player to fly or walk. Customize more in Python.',{'mode':'walk'},{'in':'exec'},{'next':'exec'}),
+}
+SPECS.update({
+ 'SavePNG':('Save world to PNG','Queue a screenshot with player pose and all current objects. Compression and disk writing run on a worker. Check PNG state for saved/error.',{'path':'saves/slot1.png','key':'save'},{'in':'exec'},{'next':'exec'}),
+ 'LoadPNG':('Load world from PNG','Read on a worker, then replace the world at a frame boundary. Includes spawned and removed objects, player XYZ/W and camera angles.',{'path':'saves/slot1.png','key':'save'},{'in':'exec'},{'next':'exec'}),
+ 'PNGIs':('PNG state','Use Branch. States: idle, saving, saved, loading, loaded, error. Save paths are relative to the project.',{'key':'save','state':'saved'},{},{'value':'bool'}),
+ 'LightEnabled':('Light enabled','Enable or disable this object Light component.',{'enabled':True},{'in':'exec','enabled':'bool'},{'next':'exec'}),
+ 'LightIntensity':('Light intensity','Set this Light intensity; negative values subtract illumination.',{'value':1},{'in':'exec','value':'number'},{'next':'exec'}),
+ 'MaterialOpacity':('Material opacity','Set transparent mode and opacity on this polygon, liquid or voxel object.',{'value':.5},{'in':'exec','value':'number'},{'next':'exec'}),
+})
+SPECS['Prefab']=('Spawn prefab','Creates the objects in a prefab without changing the scene.',{'path':'assets/prefabs/Example.prefab.json','x':0,'y':0,'z':0},{'in':'exec','x':'number','y':'number','z':'number'},{'next':'exec'})
+for _kind,_callback in PHYSICS_EVENTS.items():
+    _phase=_callback.rsplit('_',1)[1]
+    _hint={'enter':'Runs once when contact starts.',
+           'stay':'Runs each physics step while contact continues.',
+           'exit':'Runs once when contact ends.'}[_phase]
+    SPECS[_kind]=(' '.join(_callback.title().split('_')),
+        _hint+' Attach this script to the object with the Collider. '
+        +('At least one collider must have Is Trigger enabled. ' if 'Trigger' in _kind else
+          'Both colliders must be solid; at least one needs a non-kinematic Rigidbody. ')
+        +'Blank otherName accepts any name; playerOnly filters the player. Both filters combine.',
+        {'otherName':'','playerOnly':False},{},{'next':'exec'})
+SPECS.update({
+ 'UIClick':('UI Click','Runs on a released click on this imported element, in Play.',{'slide':'1','element':'play'},{},{'next':'exec'}),
+ 'UIVisible':('UI visible','Show or hide the entire attached interface.',{'enabled':False},{'in':'exec','enabled':'bool'},{'next':'exec'}),
+ 'UIShowSlide':('UI show slide','Open a slide using its imported transition or an override.',{'slide':'1','transition':'imported','duration':.35,'direction':'left'},{'in':'exec'},{'next':'exec'}),
+ 'UINextSlide':('UI next slide','Open the next enabled slide.',{'transition':'imported','duration':.35,'direction':'left'},{'in':'exec'},{'next':'exec'}),
+ 'UIPreviousSlide':('UI previous slide','Open the previous enabled slide.',{'transition':'imported','duration':.35,'direction':'left'},{'in':'exec'},{'next':'exec'}),
+ 'UIPlayAnimation':('UI play animation','Restart animations of an element on the current slide.',{'slide':'1','element':'play'},{'in':'exec'},{'next':'exec'}),
+ 'UIElementEnabled':('UI element enabled','Show/hide an element and enable/disable its clicks.',{'slide':'1','element':'play','enabled':True},{'in':'exec','enabled':'bool'},{'next':'exec'}),
+ 'UISlideEnabled':('UI slide enabled','Allow/disallow a slide. Use UI show slide to open it.',{'slide':'1','enabled':True},{'in':'exec','enabled':'bool'},{'next':'exec'}),
+})
+SPECS.update({
+ 'UIDialogueNext':('UI dialogue next','Show next line; the last click marks this dialogue finished.',{'slide':'1','element':'dialogue'},{'in':'exec'},{'next':'exec'}),
+ 'UIDialogueReset':('UI dialogue reset','Show the first line and clear the finished flag.',{'slide':'1','element':'dialogue'},{'in':'exec'},{'next':'exec'}),
+ 'UIDialogueFinished':('UI dialogue finished','True after the player advanced past the last line. Use Branch.',{'slide':'1','element':'dialogue'},{},{'value':'bool'}),
+ 'UISetText':('UI set text','Replace the dynamic text of an imported text field/group.',{'slide':'1','element':'dialogue','text':'Hello'},{'in':'exec'},{'next':'exec'}),
+ 'UIPlayVideo':('UI play video','Start local video or open a YouTube figure. Repeated local call toggles pause. Run from UI Click, not Update.',{'slide':'1','element':'video'},{'in':'exec'},{'next':'exec'}),
+ 'UIStopVideo':('UI stop video','Stop and close the currently playing local video.',{},{'in':'exec'},{'next':'exec'}),
+ 'DonationOpen':('Open donation','Open the donation URL configured in the project. This does not confirm a payment. Use UI Click.',{},{'in':'exec'},{'next':'exec'}),
+ 'TransactionStart':('Transaction start','Open the configured website (manual) or create server checkout. next means requested, not paid. Website product must match commerce settings.',{'product':'donation','key':'donation'},{'in':'exec'},{'next':'exec'}),
+ 'TransactionIs':('Transaction is','Compare status from your configured server: idle/creating/pending/succeeded/canceled/failed/unknown/manual.',{'key':'donation','state':'succeeded'},{},{'value':'bool'}),
+ 'TransactionPaidOnce':('Transaction paid once','True once after a server-confirmed success. Use Update -> Branch for local presentation effects; grant purchases on the server.',{'key':'donation'},{},{'value':'bool'}),
+ 'CertificateImport':('Import certificate','Opens the Windows JSON certificate picker. Use UI Click or KeyPressed, not every Update. product must be in the catalog; key must match TransactionHasAccess. playerId may be empty. next means dialog opened, not activated or paid.',{'product':'deluxe','key':'purchase','playerId':''},{'in':'exec'},{'next':'exec'}),
+ 'TransactionHasAccess':('Access unlocked','True in donation_access.json unlockAll mode; otherwise the configured certificate / server policy applies. This does not report a paid donation.',{'key':'purchase'},{},{'value':'bool'}),
+ 'PlayerVerified':('Game entry (SMS or free mode)','Legacy PlayerVerified game gate. Allows unlockAll or actual server verification. For identity-only checks use IdentityVerified.',{'key':'purchase'},{},{'value':'bool'}),
+ 'IdentityVerified':('Identity verified (server only)','Actual SMS / owner verification; independent of free gameplay mode.',{'key':'purchase'},{},{'value':'bool'}),
+ 'TransactionReset':('Transaction reset','Allow another checkout after completed/canceled/failed or a manual website request. Check the previous manual payment before starting again. Pending/unknown cannot be reset.',{'key':'donation'},{'in':'exec'},{'next':'exec'}),
+})
+BEGIN='# region MYENGINE_BLUEPRINT'
+END='# endregion MYENGINE_BLUEPRINT'
+
+def example():
+    return {'format':1,'nodes':[
+        {'id':'1','type':'Update','x':40,'y':50,'params':{}},
+        {'id':'2','type':'DeltaTime','x':40,'y':250,'params':{}},
+        {'id':'3','type':'Multiply','x':300,'y':240,'params':{'a':30,'b':1}},
+        {'id':'4','type':'Rotate','x':590,'y':60,'params':{'x':0,'y':0,'z':0}}],
+        'links':[['1','next','4','in'],['2','value','3','b'],['3','value','4','y']]}
+
+class Graph:
+    def __init__(self,data):
+        if data.get('format')!=1:raise ValueError('Unsupported Blueprint format')
+        self.ui_path=data.get('ui')
+        if self.ui_path is not None and (not isinstance(self.ui_path,str) or not self.ui_path):raise ValueError('Blueprint UI path must be a nonempty string')
+        ns=data.get('nodes',[]);ls=data.get('links',[])
+        if len(ns)>256 or len(ls)>1024:raise ValueError('Limit: 256 nodes / 1024 links')
+        self.nodes={};self.inputs={};self.flows={};self.events={};self.ui_events=[];self.physics_events=[];self.used=set()
+        for n in ns:
+            nid=n.get('id');kind=n.get('type')
+            if not isinstance(nid,str) or not nid or nid in self.nodes:raise ValueError('Node IDs must be unique nonempty strings')
+            if kind not in SPECS:raise ValueError('Unknown node '+str(kind))
+            node=dict(n);node['params']=dict(SPECS[kind][2]);node['params'].update(n.get('params',{}));self.nodes[nid]=node
+            if kind in ('Start','FirstSceneStart','Update','FixedUpdate'):
+                if kind in self.events:raise ValueError('Use one '+kind+' node per graph')
+                self.events[kind]=nid
+            elif kind=='UIClick':
+                target=(str(node['params']['slide']),str(node['params']['element']))
+                if not all(target):raise ValueError('UI Click needs a slide and element ID')
+                if any(t==target for _,t in self.ui_events):raise ValueError('Use one UI Click per slide/element in a graph')
+                self.ui_events.append((nid,target))
+            elif kind in PHYSICS_EVENTS:
+                if not isinstance(node['params']['otherName'],str) or not isinstance(node['params']['playerOnly'],bool):
+                    raise ValueError('Physics event needs string otherName and boolean playerOnly')
+                self.physics_events.append((nid,kind))
+        for link in ls:
+            if len(link)!=4:raise ValueError('Link must be [source,port,target,port]')
+            a,ap,b,bp=link
+            if a not in self.nodes or b not in self.nodes:raise ValueError('Link refers to missing node')
+            at=SPECS[self.nodes[a]['type']][4].get(ap);bt=SPECS[self.nodes[b]['type']][3].get(bp)
+            if at is None or bt is None or at!=bt:raise ValueError('Incompatible ports: '+str(link))
+            if at=='exec':
+                if (a,ap) in self.flows:raise ValueError('An execution output has only one connection')
+                self.flows[a,ap]=b
+            else:
+                if (b,bp) in self.inputs:raise ValueError('An input has only one connection')
+                self.inputs[b,bp]=(a,ap)
+        # Reject disconnected cycles too, rather than allowing latent infinite generation.
+        adjacency={i:[] for i in self.nodes}
+        for a,ap,b,bp in ls:adjacency[a].append(b)
+        done=set();visiting=set()
+        def visit(i):
+            if i in visiting:raise ValueError('Cycles are not supported; use Update / Fixed Update to repeat')
+            if i in done:return
+            visiting.add(i)
+            for j in adjacency[i]:visit(j)
+            visiting.remove(i);done.add(i)
+        for i in self.nodes:visit(i)
+        self.lines=[]
+    def value(self,nid,port):
+        if (nid,port) in self.inputs:return self.expression(self.inputs[nid,port][0])
+        value=self.nodes[nid]['params'][port];kind=SPECS[self.nodes[nid]['type']][3][port]
+        if kind=='bool':
+            if not isinstance(value,bool):raise ValueError('Boolean parameter required')
+        elif isinstance(value,bool) or not isinstance(value,(float,int)) or not math.isfinite(value):raise ValueError('Finite number required: '+port)
+        return repr(value)
+    def expression(self,nid):
+        self.used.add(nid);n=self.nodes[nid];kind=n['type'];p=n['params']
+        if kind=='Number':
+            value=p['value']
+            if isinstance(value,bool) or not isinstance(value,(float,int)) or not math.isfinite(value):raise ValueError('Number must be finite')
+            return repr(value)
+        if kind=='UIDialogueFinished':return '(self.world.ui is not None and self.world.ui.dialogue_finished('+repr(str(p['element']))+', '+repr(str(p['slide']))+'))'
+        if kind=='TransactionPaidOnce':return 'self.world.transactions.paid_once('+repr(str(p['key']))+')'
+        if kind=='TransactionHasAccess':return 'self.world.transactions.has_access('+repr(str(p['key']))+')'
+        if kind=='IdentityVerified':return 'self.world.transactions.identity_verified('+repr(str(p['key']))+')'
+        if kind=='PlayerVerified':return 'self.world.transactions.player_verified('+repr(str(p['key']))+')'
+        if kind=='TransactionIs':
+            from engine_transactions import STATES
+            if p['state'] not in STATES:raise ValueError('Unknown transaction state')
+            return '(self.world.transactions.state('+repr(str(p['key']))+') == '+repr(p['state'])+')'
+        if kind=='PNGIs':
+            from engine_saves import STATES
+            if p['state'] not in STATES:raise ValueError('Unknown PNG state')
+            return '(self.world.saves.state('+repr(str(p['key']))+') == '+repr(str(p['state']))+')'
+        if kind=='DeltaTime':return 'dt'
+        if kind in ('KeyDown','KeyPressed'):return 'self.world.input.'+('down' if kind=='KeyDown' else 'pressed')+'('+repr(str(p['key']))+')'
+        if kind in ('Add','Multiply','Compare'):return '('+self.value(nid,'a')+{'Add':' + ','Multiply':' * ','Compare':' > '}[kind]+self.value(nid,'b')+')'
+        from engine_node_api import definition,Context
+        custom=definition(kind)
+        if custom and custom[0]:
+            expression=custom[0](Context(self,nid))
+            ast.parse(expression,mode='eval');return '('+expression+')'
+        raise ValueError('Not a data node: '+kind)
+    def emit(self,indent,line):
+        if len(self.lines)>20000:raise ValueError('Graph expands to too much Python; simplify branches')
+        self.lines.append('    '*indent+line)
+    def chain(self,nid,indent):
+        if nid is None:self.emit(indent,'pass');return
+        self.used.add(nid);n=self.nodes[nid];kind=n['type'];p=n['params']
+        self.emit(indent,'# '+kind+' node '+repr(nid))
+        if kind=='Branch':
+            self.emit(indent,'if '+self.value(nid,'condition')+':');self.chain(self.flows.get((nid,'true')),indent+1)
+            self.emit(indent,'else:');self.chain(self.flows.get((nid,'false')),indent+1);return
+        def args(ports):return ', '.join(self.value(nid,k) for k in ports)
+        if kind=='Move':line='self.entity.move('+args(('x','y','z','w'))+')'
+        elif kind=='SetPosition':line='self.entity.position = ('+args(('x','y','z'))+')'
+        elif kind=='SetVisible':line='self.entity.visible = '+self.value(nid,'visible')
+        elif kind=='Rotate':line='self.entity.rotate('+args(('x','y','z'))+')'
+        elif kind=='Rotate4D':line='self.entity.rotation4.set(*[a+b for a,b in zip(self.entity.rotation4, ('+args(('xw','yw','zw'))+'))])'
+        elif kind=='Velocity':line='self.entity.rigidbody.velocity = ('+args(('x','y','z'))+')'
+        elif kind=='Impulse':line='self.entity.rigidbody.add_force(('+args(('x','y','z'))+'), mode="impulse")'
+        elif kind=='Spawn':line='self.world.instantiate('+repr(str(p['model']) or None)+', position=('+args(('x','y','z'))+'), scripts='+repr([str(p['script'])] if p['script'] else [])+')'
+        elif kind=='Prefab':line='self.world.instantiate_prefab('+repr(str(p['path']))+', position=('+args(('x','y','z'))+'))'
+        elif kind in ('SavePNG','LoadPNG'):line='self.world.'+('save_game_png' if kind=='SavePNG' else 'load_game_png')+'('+repr(str(p['path']))+', '+repr(str(p['key']))+')'
+        elif kind=='LightEnabled':line='self.entity.light["enabled"] = '+self.value(nid,'enabled')
+        elif kind=='LightIntensity':line='self.entity.light["intensity"] = '+self.value(nid,'value')
+        elif kind=='MaterialOpacity':line='self.entity.set_material(mode="transparent", opacity='+self.value(nid,'value')+')'
+        elif kind=='LoadScene':line='self.world.load_scene('+repr(str(p['path']))+')'
+        elif kind=='QuitGame':line='self.world.quit()'
+        elif kind=='Print':line='self.world.log('+repr(str(p['text']))+')'
+        elif kind=='Destroy':line='self.entity.destroy()'
+        elif kind=='Character':
+            if p['mode'] not in ('walk','fly'):raise ValueError('Character mode must be walk or fly')
+            line='self.world.camera.configure_physics('+repr(p['mode'])+')'
+        elif kind=='UIVisible':line='self.world.ui.enabled = '+self.value(nid,'enabled')
+        elif kind in ('UIShowSlide','UINextSlide','UIPreviousSlide'):
+            from engine_ui_effects import transition_settings
+            transition_settings({'kind':'none' if p['transition']=='imported' else p['transition'],'duration':p['duration'],'direction':p['direction']})
+            options='transition='+repr(p['transition'])+', duration='+repr(float(p['duration']))+', direction='+repr(p['direction'])
+            call='show_slide('+repr(str(p['slide']))+', ' if kind=='UIShowSlide' else 'next_slide(' if kind=='UINextSlide' else 'previous_slide('
+            line='self.world.ui.'+call+options+')'
+        elif kind in ('UIDialogueNext','UIDialogueReset','UIPlayVideo'):
+            method={'UIDialogueNext':'dialogue_next','UIDialogueReset':'dialogue_reset','UIPlayVideo':'play_video'}[kind]
+            line='self.world.ui.'+method+'('+repr(str(p['element']))+', '+repr(str(p['slide']))+')'
+        elif kind=='UISetText':line='self.world.ui.set_text('+repr(str(p['element']))+', '+repr(str(p['text']))+', '+repr(str(p['slide']))+')'
+        elif kind=='UIStopVideo':line='self.world.ui.stop_video()'
+        elif kind=='DonationOpen':line='self.world.transactions.donate()'
+        elif kind=='TransactionStart':line='self.world.transactions.start('+repr(str(p['product']))+', '+repr(str(p['key']))+')'
+        elif kind=='CertificateImport':line='self.world.transactions.import_certificate('+repr(str(p['product']))+', '+repr(str(p['key']))+', '+repr(str(p['playerId']))+')'
+        elif kind=='TransactionReset':line='self.world.transactions.reset('+repr(str(p['key']))+')'
+        elif kind=='UIPlayAnimation':line='self.world.ui.play_animation('+repr(str(p['element']))+', '+repr(str(p['slide']))+')'
+        elif kind=='UIElementEnabled':line='self.world.ui.set_element_enabled('+repr(str(p['element']))+', '+self.value(nid,'enabled')+', '+repr(str(p['slide']))+')'
+        elif kind=='UISlideEnabled':line='self.world.ui.set_slide_enabled('+repr(str(p['slide']))+', '+self.value(nid,'enabled')+')'
+        else:
+            from engine_node_api import definition,Context
+            custom=definition(kind)
+            if not custom or not custom[1]:raise ValueError('Not an action: '+kind)
+            line=custom[1](Context(self,nid))
+            if isinstance(line,list):line='\n'.join(line)
+            if not isinstance(line,str):raise ValueError('Action generator must return Python text')
+            ast.parse(line)
+            for source_line in line.splitlines():self.emit(indent,source_line)
+            target=self.flows.get((nid,'next'))
+            if target:self.chain(target,indent)
+            return
+        if kind in ('Velocity','Impulse'):
+            self.emit(indent,'if self.entity.rigidbody is not None:');self.emit(indent+1,line)
+        elif kind in ('LightEnabled','LightIntensity'):
+            self.emit(indent,'if self.entity.light is not None:');self.emit(indent+1,line)
+        elif kind.startswith('UI'):
+            self.emit(indent,'if self.world.ui is not None:');self.emit(indent+1,line)
+        else:self.emit(indent,line)
+        target=self.flows.get((nid,'next'))
+        if target:self.chain(target,indent)
+    def compile(self):
+        self.lines=[BEGIN];self.used.clear()
+        self.emit(0,'_bp_ui_path = '+repr(self.ui_path))
+        self.emit(0,'_bp_ui_click_targets = '+repr(tuple(target for _,target in self.ui_events)))
+        for kind,name in [('Start','start'),('FirstSceneStart','first_scene_start'),('Update','update'),('FixedUpdate','fixed_update')]:
+            self.emit(0,'def _bp_'+name+'(self, dt=0.0):')
+            event=self.events.get(kind)
+            if event:self.used.add(event)
+            self.chain(self.flows.get((event,'next')),1);self.lines.append('')
+        self.emit(0,'def _bp_ui_click(self, slide, element, dt=0.0):')
+        if not self.ui_events:self.emit(1,'pass')
+        for event,(slide,element) in self.ui_events:
+            self.used.add(event)
+            self.emit(1,'if (str(slide), str(element)) == '+repr((slide,element))+':')
+            self.chain(self.flows.get((event,'next')),2)
+        self.lines.append('')
+        callbacks={}
+        for kind,name in PHYSICS_EVENTS.items():
+            events=[nid for nid,event_kind in self.physics_events if event_kind==kind]
+            if not events:continue
+            callbacks[name]='_bp_'+name
+            self.emit(0,'def _bp_'+name+'(self, '+('collision' if 'Collision' in kind else 'other')+'):')
+            if 'Collision' in kind:self.emit(1,'other = collision.other')
+            self.emit(1,'dt = self.world.physics.fixed_delta_time')
+            for event in events:
+                self.used.add(event);params=self.nodes[event]['params'];filters=[]
+                if params['otherName']:filters.append('getattr(other, "name", "") == '+repr(params['otherName']))
+                if params['playerOnly']:filters.append('getattr(other, "is_player", False)')
+                if filters:self.emit(1,'if '+' and '.join(filters)+':')
+                self.chain(self.flows.get((event,'next')),2 if filters else 1)
+            self.lines.append('')
+        self.emit(0,'_bp_physics_callbacks = {'+', '.join(repr(name)+': '+fn for name,fn in callbacks.items())+'}')
+        self.lines.append(END);text='\n'.join(self.lines)
+        ast.parse(text);return text
+
+def generated_source(data,existing=None):
+    graph=Graph(data);region=graph.compile()
+    if existing is None:
+        text='from engine_runtime import Behaviour\n\n'+region+'''\n\nclass Script(Behaviour):
+    def start(self):
+        _bp_start(self)
+
+    def update(self, dt):
+        _bp_update(self, dt)
+
+    def fixed_update(self, dt):
+        _bp_fixed_update(self, dt)
+
+# Write your extra Python outside the generated region.
+'''
+    else:
+        lines=existing.splitlines(keepends=True)
+        starts=[i for i,l in enumerate(lines) if l.rstrip('\r\n')==BEGIN];ends=[i for i,l in enumerate(lines) if l.rstrip('\r\n')==END]
+        if len(starts)!=1 or len(ends)!=1 or starts[0]>=ends[0]:raise ValueError('Choose a new Python file, or use a file already generated by Blueprints. No matching region found.')
+        text=''.join(lines[:starts[0]])+region+'\n'+''.join(lines[ends[0]+1:])
+    ast.parse(text)
+    return text,sorted(set(graph.nodes)-graph.used)
+
+def save_python(path,data):
+    path=Path(path);text,unused=generated_source(data,path.read_text(encoding='utf-8-sig') if path.exists() else None)
+    path.parent.mkdir(parents=True,exist_ok=True);fd,tmp=tempfile.mkstemp(dir=path.parent,suffix='.tmp')
+    try:
+        with os.fdopen(fd,'w',encoding='utf-8',newline='\n') as f:f.write(text)
+        os.replace(tmp,path)
+    finally:
+        if os.path.exists(tmp):os.unlink(tmp)
+    return unused

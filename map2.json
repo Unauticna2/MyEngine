@@ -1,0 +1,134 @@
+{
+  "model": [
+    "assets/Terrain2.obj",
+    "assets/Floor2.obj",
+    "assets/spherecube.4d",
+    "assets/cubebounds.obj"
+  ],
+  "positions": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": -4,
+      "y": 3,
+      "z": 2
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 3
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.0,
+      "g": 0.6,
+      "b": 0.3
+    },
+    {
+      "r": 0.21,
+      "g": 0.2,
+      "b": 0.22
+    },
+    {
+      "r": 0.85,
+      "g": 0.85,
+      "b": 1
+    },
+    {
+      "r": 0,
+      "g": 1,
+      "b": 0
+    }
+  ],
+  "lightRotate": {
+    "x": 0,
+    "y": 31,
+    "z": -70
+  },
+  "names": [
+    "terrain",
+    "floor",
+    "spherecube_4d",
+    "food_trigger"
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1.5,
+      "y": 1.5,
+      "z": 1.5
+    }
+  ],
+  "textures": [
+    "textures/terrain.png",
+    "textures/checker.png",
+    "textures/checker.png",
+    "textures/checker.png"
+  ],
+  "scripts": [
+    null,
+    null,
+    "scripts/move_keys.py",
+    "scripts/trigger_demo1.py"
+  ],
+  "colliders": [
+    null,
+    null,
+    null,
+    {
+      "isTrigger": true,
+      "size": {
+        "x": 3,
+        "y": 3,
+        "z": 3
+      }
+    }
+  ],
+  "layerSpacing": 0.1,
+  "title": "My Engine"
+}

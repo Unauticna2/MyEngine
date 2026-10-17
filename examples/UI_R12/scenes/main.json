@@ -1,0 +1,118 @@
+{
+  "title": "UI R12 example",
+  "model": [
+    null
+  ],
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 3,
+      "z": 10
+    },
+    "pitch": 12,
+    "yaw": 0,
+    "w": 0,
+    "freeFly": true
+  },
+  "positions": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    }
+  ],
+  "names": [
+    "UIController"
+  ],
+  "textures": [
+    null
+  ],
+  "scripts": [
+    [
+      "scripts/next.py"
+    ]
+  ],
+  "colliders": [
+    null
+  ],
+  "rigidbodies": [
+    null
+  ],
+  "rotations4D": [
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    }
+  ],
+  "layerSpacings": [
+    0.1
+  ],
+  "voxels": [
+    null
+  ],
+  "active": [
+    true
+  ],
+  "visible": [
+    false
+  ],
+  "omitModelInBuild": [
+    false
+  ],
+  "editorOnly": [
+    false
+  ],
+  "scriptTrusted": [
+    true
+  ],
+  "castShadows": [
+    true
+  ],
+  "receiveShadows": [
+    true
+  ],
+  "ui": "assets/ui/Demo/interface.ui.json",
+  "uiScale": {
+    "mode": "fit",
+    "match": 0.5
+  },
+  "runtime": {
+    "freeFly": false,
+    "mouseLook": false,
+    "diagnosticTitle": false,
+    "escapeQuits": false,
+    "wKeys": false
+  },
+  "uiBlueprints": {
+    "54d33a114870c8612b4caa11da36ca8b69c32e52b8b9b72360a21a54fe41cbc6": {
+      "ui": "assets/ui/Demo/interface.ui.json",
+      "slide": "1",
+      "element": "next",
+      "graph": "scripts/next.blueprint.json",
+      "script": "scripts/next.py",
+      "object": "UIController"
+    }
+  }
+}

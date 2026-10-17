@@ -1,0 +1,138 @@
+{
+  "format": 1,
+  "kind": "prefab",
+  "scene": {
+    "model": [
+      "assets/Cube.obj",
+      "assets/Cube.obj"
+    ],
+    "names": [
+      "Block",
+      "Top"
+    ],
+    "positions": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "z": 0,
+        "w": 0
+      }
+    ],
+    "scales": [
+      {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      {
+        "x": 0.3,
+        "y": 0.3,
+        "z": 0.3
+      }
+    ],
+    "colors": [
+      {
+        "r": 0.9,
+        "g": 0.35,
+        "b": 0.1
+      },
+      {
+        "r": 0.2,
+        "g": 0.9,
+        "b": 0.55
+      }
+    ],
+    "colliders": [
+      {
+        "type": "box"
+      },
+      {
+        "type": "box"
+      }
+    ],
+    "rigidbodies": [
+      {
+        "mass": 1,
+        "freezeRotation": true
+      },
+      {
+        "mass": 0.5,
+        "freezeRotation": true
+      }
+    ],
+    "rotations": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    ],
+    "textures": [
+      null,
+      null
+    ],
+    "scripts": [
+      [],
+      []
+    ],
+    "rotations4D": [
+      {
+        "xw": 0,
+        "yw": 0,
+        "zw": 0
+      },
+      {
+        "xw": 0,
+        "yw": 0,
+        "zw": 0
+      }
+    ],
+    "layerSpacings": [
+      0.1,
+      0.1
+    ],
+    "voxels": [
+      null,
+      null
+    ],
+    "active": [
+      true,
+      true
+    ],
+    "visible": [
+      true,
+      true
+    ],
+    "omitModelInBuild": [
+      false,
+      false
+    ],
+    "editorOnly": [
+      false,
+      false
+    ],
+    "scriptTrusted": [
+      true,
+      true
+    ],
+    "castShadows": [
+      true,
+      true
+    ],
+    "receiveShadows": [
+      true,
+      true
+    ]
+  }
+}

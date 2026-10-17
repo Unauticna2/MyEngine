@@ -1,0 +1,317 @@
+{
+  "model": [
+    "assets/PhysicsTerrain.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    "assets/Cube.obj",
+    null
+  ],
+  "positions": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": -3,
+      "y": 0.5,
+      "z": 0
+    },
+    {
+      "x": -3,
+      "y": 1.53,
+      "z": 0
+    },
+    {
+      "x": -3,
+      "y": 2.56,
+      "z": 0
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": -4
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 4
+    },
+    {
+      "x": -7,
+      "y": 1.5,
+      "z": -6
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 25
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5
+    },
+    {
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5
+    },
+    {
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5
+    },
+    {
+      "x": 0.6,
+      "y": 0.6,
+      "z": 0.6
+    },
+    {
+      "x": 1.5,
+      "y": 0.2,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1.5,
+      "z": 0.2
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.5,
+      "g": 0.7,
+      "b": 0.45
+    },
+    {
+      "r": 0.8,
+      "g": 0.35,
+      "b": 0.1
+    },
+    {
+      "r": 0.8,
+      "g": 0.55,
+      "b": 0.1
+    },
+    {
+      "r": 0.8,
+      "g": 0.75,
+      "b": 0.1
+    },
+    {
+      "r": 0.8,
+      "g": 0.2,
+      "b": 0.15
+    },
+    {
+      "r": 0.4,
+      "g": 0.5,
+      "b": 0.9
+    },
+    {
+      "r": 0.2,
+      "g": 0.65,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    }
+  ],
+  "names": [
+    "terrain",
+    "stack_0",
+    "stack_1",
+    "stack_2",
+    "falling_box",
+    "moving_platform",
+    "scene_portal",
+    "game_controller"
+  ],
+  "textures": [
+    "textures/checker.png",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "scripts": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    "scripts/moving_platform.py",
+    "scripts/scene_portal.py",
+    [
+      "scripts/physics_spawner.py",
+      "scripts/physics_player.py"
+    ]
+  ],
+  "colliders": [
+    {
+      "type": "mesh",
+      "friction": 0.8
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "box"
+    },
+    {
+      "type": "box",
+      "isTrigger": true
+    },
+    null
+  ],
+  "rigidbodies": [
+    null,
+    {
+      "mass": 1,
+      "freeze_rotation": true,
+      "friction": 0.6
+    },
+    {
+      "mass": 1,
+      "freeze_rotation": true,
+      "friction": 0.6
+    },
+    {
+      "mass": 1,
+      "freeze_rotation": true,
+      "friction": 0.6
+    },
+    {
+      "mass": 2,
+      "restitution": 0.2,
+      "angular_velocity": [
+        0.3,
+        0.6,
+        0.2
+      ]
+    },
+    {
+      "is_kinematic": true,
+      "friction": 1
+    },
+    null,
+    null
+  ],
+  "title": "ASM Physics - Scene 1",
+  "lightRotate": {
+    "x": 0,
+    "y": 20,
+    "z": -25
+  },
+  "layerSpacing": 0.1,
+  "physics": {
+    "gravity": {
+      "x": 0,
+      "y": -9.81,
+      "z": 0
+    },
+    "fixedDeltaTime": 0.008333333333333333,
+    "solverIterations": 10,
+    "maxSubsteps": 8
+  },
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 2,
+      "z": 8
+    },
+    "pitch": 12,
+    "yaw": 0,
+    "freeFly": false,
+    "collider": {
+      "type": "box",
+      "size": [
+        0.5,
+        1.7,
+        0.5
+      ],
+      "center": [
+        0,
+        -0.65,
+        0
+      ]
+    },
+    "rigidbody": {
+      "mass": 80,
+      "friction": 0,
+      "linear_damping": 0
+    }
+  }
+}

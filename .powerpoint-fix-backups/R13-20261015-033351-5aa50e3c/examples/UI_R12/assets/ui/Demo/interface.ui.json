@@ -1,0 +1,265 @@
+{
+  "format": 1,
+  "kind": "MyEngine.UI",
+  "width": 960,
+  "height": 540,
+  "startSlide": "1",
+  "slides": [
+    {
+      "id": "1",
+      "modal": true,
+      "elements": [
+        {
+          "id": "title",
+          "name": "title",
+          "rect": [
+            30,
+            30,
+            700,
+            60
+          ],
+          "color": [
+            0.1,
+            0.15,
+            0.22,
+            1
+          ],
+          "text": "MyEngine R12 — UI",
+          "textSlot": {
+            "rect": [
+              12,
+              8,
+              676,
+              44
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        },
+        {
+          "id": "close",
+          "name": "close",
+          "rect": [
+            870,
+            30,
+            60,
+            60
+          ],
+          "color": [
+            0.6,
+            0.12,
+            0.12,
+            1
+          ],
+          "text": "×",
+          "textSlot": {
+            "rect": [
+              12,
+              8,
+              36,
+              44
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "anchors": {
+            "horizontal": "right",
+            "vertical": "top"
+          },
+          "onClick": [
+            {
+              "action": "quit"
+            }
+          ]
+        },
+        {
+          "id": "next",
+          "name": "next",
+          "rect": [
+            30,
+            160,
+            200,
+            70
+          ],
+          "color": [
+            0.1,
+            0.35,
+            0.7,
+            1
+          ],
+          "text": "Дальше",
+          "textSlot": {
+            "rect": [
+              12,
+              8,
+              176,
+              54
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "onClick": [
+            {
+              "action": "dialogueNext",
+              "id": "dialogue"
+            }
+          ]
+        },
+        {
+          "id": "reset",
+          "name": "reset",
+          "rect": [
+            250,
+            160,
+            200,
+            70
+          ],
+          "color": [
+            0.15,
+            0.3,
+            0.4,
+            1
+          ],
+          "text": "Сначала",
+          "textSlot": {
+            "rect": [
+              12,
+              8,
+              176,
+              54
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "onClick": [
+            {
+              "action": "dialogueReset",
+              "id": "dialogue"
+            }
+          ]
+        },
+        {
+          "id": "donate",
+          "name": "donate",
+          "rect": [
+            470,
+            160,
+            250,
+            70
+          ],
+          "color": [
+            0.35,
+            0.2,
+            0.45,
+            1
+          ],
+          "text": "Поддержать",
+          "textSlot": {
+            "rect": [
+              12,
+              8,
+              226,
+              54
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "onClick": [
+            {
+              "action": "donate"
+            }
+          ]
+        },
+        {
+          "id": "dialogue",
+          "name": "Поле новеллы",
+          "group": true,
+          "rect": [
+            30,
+            340,
+            900,
+            160
+          ],
+          "color": [
+            0.08,
+            0.1,
+            0.18,
+            1
+          ],
+          "anchors": {
+            "horizontal": "stretch",
+            "vertical": "bottom"
+          },
+          "textSlot": {
+            "rect": [
+              24,
+              20,
+              852,
+              120
+            ],
+            "style": {
+              "font": "Segoe UI",
+              "size": 24,
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "sourceText": "Начальная реплика"
+          },
+          "dialogue": {
+            "lines": [
+              "Привет! Это поле новеллы. Нажми на него или на кнопку «Дальше».",
+              "Размер окна меняется, а панель остаётся у нижнего края.",
+              "Третья реплика. Нажми «Сначала», чтобы повторить."
+            ],
+            "clickToAdvance": true
+          },
+          "onDialogueEnd": []
+        }
+      ]
+    }
+  ]
+}

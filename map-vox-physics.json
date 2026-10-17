@@ -1,0 +1,239 @@
+{
+  "title": "MyEngine 2.2 — voxel physics",
+  "model": [
+    "assets/Cube.obj",
+    null,
+    "assets/spherecube.4d",
+    null,
+    null
+  ],
+  "camera": {
+    "position": {
+      "x": 0,
+      "y": 3,
+      "z": 8
+    },
+    "pitch": 10,
+    "yaw": 0,
+    "freeFly": true
+  },
+  "lightRotate": {
+    "x": 20,
+    "y": 0,
+    "z": -25
+  },
+  "positions": [
+    {
+      "x": 0,
+      "y": -0.3,
+      "z": 0
+    },
+    {
+      "x": -2,
+      "y": 2,
+      "z": 0
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "z": 3
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "rotations": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  ],
+  "scales": [
+    {
+      "x": 6,
+      "y": 0.15,
+      "z": 6
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    {
+      "x": 0.3,
+      "y": 0.3,
+      "z": 0.3
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  ],
+  "colors": [
+    {
+      "r": 0.3,
+      "g": 0.34,
+      "b": 0.4
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 0.2,
+      "g": 0.65,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    }
+  ],
+  "names": [
+    "Polygon floor",
+    "MagicaVoxel model",
+    "4D layered model",
+    "Falling voxel",
+    "Physics player"
+  ],
+  "textures": [
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "scripts": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "scripts/player_walk.py"
+    ]
+  ],
+  "colliders": [
+    {
+      "type": "box"
+    },
+    {
+      "type": "voxel"
+    },
+    {
+      "type": "mesh"
+    },
+    {
+      "type": "box"
+    },
+    null
+  ],
+  "rigidbodies": [
+    null,
+    null,
+    null,
+    {
+      "mass": 2,
+      "freezeRotation": true
+    },
+    null
+  ],
+  "rotations4D": [
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    },
+    {
+      "xw": 0,
+      "yw": 0,
+      "zw": 0
+    }
+  ],
+  "layerSpacings": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+  ],
+  "voxels": [
+    null,
+    {
+      "path": "assets/vox.vox",
+      "cellSize": 0.1
+    },
+    null,
+    "assets/vox.vox",
+    null
+  ],
+  "active": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "visible": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ]
+}
